@@ -1,0 +1,117 @@
+<% layout('/layouts/boilerplate') -%>
+
+    <body>
+        <!-- <h1>Listings Page</h1> -->
+        <style>
+            #filters {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                text-align: center;
+                padding: 10px;
+            }
+            
+            .filter {
+                display: flex;
+                flex-direction: column;
+                opacity: 0.7;
+                align-items: center;
+                cursor: pointer;
+            }
+            
+            .filter i {
+                font-size: 18px;
+                margin-bottom: 5px;
+                color: #333;
+            }
+            
+            .filter p {
+                margin: 0;
+                color: #555;
+            }
+            
+            .filter:hover {
+                opacity: 1;
+            }
+            
+            .switch {
+                border: 1px solid black;
+                height: 3rem;
+                padding: 5px;
+                border-radius: 1rem;
+                display: flex;
+                align-items: center;
+            }
+        </style>
+
+        <div id="filters">
+            <div class="filter">
+                <div><i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-bed"></i></div>
+                <p>bed</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-chess-rook"></i></div>
+                <p>Castles</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-person-swimming"></i></div>
+                <p>pool</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-city"></i></div>
+                <p>Cities</p>
+            </div>
+
+            <div class="switch">
+                <div class="form-check-reverse form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                    <label class="form-check-label" for="switchCheckDefault">Display total after taxes </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+            <% for (let listing of allListings) { %>
+                <a href="listings/<%= listing._id %>" style="text-decoration: none;">
+                    <div class="col mb-4">
+
+                        <div class="card h-100 ">
+
+                            <img src=<%=listing.image.url%> class="card-img-top" alt="listing image">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <b><%= listing.title %></b>
+                                    <br> &#8377;
+                                    <%= listing.price.toLocaleString('en-IN') %>/Night <span class="gstText" style="display: none;">+18% GST</span>
+                                </p>
+                            </div>
+                            <div class="card-img-overlay">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <% } %>
+        </div>
+
+        <script>
+            let switchToggle = document.getElementById('switchCheckDefault');
+            let gstTextElements = document.getElementsByClassName('gstText');
+            switchToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    for (let i = 0; i < gstTextElements.length; i++) {
+                        gstTextElements[i].style.display = 'inline';
+                    }
+                } else {
+                    for (let i = 0; i < gstTextElements.length; i++) {
+                        gstTextElements[i].style.display = 'none';
+                    }
+                }
+            });
+        </script>
+
+    </body>
